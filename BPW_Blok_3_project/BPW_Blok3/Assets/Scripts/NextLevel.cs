@@ -5,10 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class NextLevel : MonoBehaviour
 {
+
+    private int nextSceneToLoad;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        nextSceneToLoad = SceneManager.GetActiveScene().buildIndex + 1; 
     }
 
     // Update is called once per frame
@@ -17,11 +20,11 @@ public class NextLevel : MonoBehaviour
         
     }
 
-    void OnCollisionEnter(Collision gameObjectInformation)
+    void OnTriggerEnter(Collider other)
 	{
-        if(gameObjectInformation.gameObject.name == "Player"){
+        //if(gameObjectInformation.gameObject.name == "Player"){
             Debug.Log("collision detected");
-            SceneManager.LoadScene("Level01");
-        }
+            SceneManager.LoadScene(nextSceneToLoad);
+       // }
 	}
 }

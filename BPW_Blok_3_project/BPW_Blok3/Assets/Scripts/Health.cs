@@ -1,16 +1,25 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Health : MonoBehaviour
 {
-    public int maxHealt;
-    public int currentHealt;
+    public float startHealth;
+    public float currentHealth;
+    public PlayerMovement thePlayer;
+    public Image healthbar;
+
+    private bool isRespawning;
+    private Vector3 respawningPoint;
+
+    public float respawnLegnth;
 
     // Start is called before the first frame update
     void Start()
     {
-        currentHealt = maxHealt;   
+        currentHealth = startHealth;
+
+        respawningPoint = thePlayer.transform.position;
     }
 
     // Update is called once per frame
@@ -19,13 +28,40 @@ public class Health : MonoBehaviour
     }
 
     public void HurtPlayer(int damage){
-        currentHealt -= damage;
+        currentHealth -= damage;
+
+        healthbar.fillAmount = currentHealth / startHealth;
+
+        if(currentHealth <= 0){
+            Debug.Log("Game Over");
+            Respawn();
+
+        }
     }
 
+    public void Respawn()
+    {
+        Debug.Log("Gespawned");
+        thePlayer.transform.position = respawningPoint;
+        healthbar.fillAmount = startHealth;
+        currentHealth = startHealth;
+       // if (!isRespawning)
+       // {
+       //     StartCoroutine("RespawnCo");
+       // }
+    }
+
+   // public IEnumerator RespawnCo(){
+   //     isRespawning = true;
+   //     yield return new WaitForSeconds(respawnLegnth);
+   //     isRespawning = false;
+        
+    //}
+
     public void HealtPlayer(int healAmount){
-        currentHealt += healAmount;
-        if(currentHealt > maxHealt){
-            currentHealt = maxHealt;
+        currentHealth += healAmount;
+        if(currentHealth > startHealth){
+            currentHealth = startHealth;
         }
     }
 }
