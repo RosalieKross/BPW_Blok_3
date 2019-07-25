@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class Health : MonoBehaviour
 {
     public float startHealth;
@@ -27,8 +28,8 @@ public class Health : MonoBehaviour
     {
     }
 
-    public void HurtPlayer(int damage){
-        currentHealth -= damage;
+    public void HurtPlayer(int damageToGive){
+        currentHealth -= damageToGive;
 
         healthbar.fillAmount = currentHealth / startHealth;
 
@@ -39,24 +40,32 @@ public class Health : MonoBehaviour
         }
     }
 
+    public void PickUp(int HealthBonus)
+    {
+        if(currentHealth < startHealth)
+        {
+            currentHealth = currentHealth + HealthBonus;
+            healthbar.fillAmount = currentHealth / startHealth;
+        }   
+    }
+
     public void Respawn()
     {
         Debug.Log("Gespawned");
         thePlayer.transform.position = respawningPoint;
         healthbar.fillAmount = startHealth;
         currentHealth = startHealth;
-       // if (!isRespawning)
-       // {
-       //     StartCoroutine("RespawnCo");
-       // }
+            if (!isRespawning)
+         {
+           StartCoroutine("RespawnCo");
+            }
     }
 
-   // public IEnumerator RespawnCo(){
-   //     isRespawning = true;
-   //     yield return new WaitForSeconds(respawnLegnth);
-   //     isRespawning = false;
-        
-    //}
+   public IEnumerator RespawnCo(){
+        isRespawning = true;
+        yield return new WaitForSeconds(respawnLegnth);
+        isRespawning = false;
+        }
 
     public void HealtPlayer(int healAmount){
         currentHealth += healAmount;

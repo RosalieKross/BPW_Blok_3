@@ -9,22 +9,29 @@ public class PlayerMovement : MonoBehaviour
     public bool onGround;
     private Rigidbody rb;
 
+    public AudioClip AudioClip; //Audio clip
+    public AudioSource SoundSource; // Game object waar het geluid vanaf moet komen
+    
+
     // Start is called before the first frame update
     void Start()
     {
         onGround = true;
         rb = GetComponent<Rigidbody>();
+        SoundSource.clip = AudioClip;
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        float translation = Input.GetAxis("Vertical") * speed;
-        float straffe = Input.GetAxis("Horizontal") * speed;
-        translation *= Time.deltaTime;
-        straffe *= Time.deltaTime;
-
-        transform.Translate(straffe, 0, translation);
+          
+            float translation = Input.GetAxis("Vertical") * speed;
+            float straffe = Input.GetAxis("Horizontal") * speed;
+            translation *= Time.deltaTime;
+            straffe *= Time.deltaTime;
+            transform.Translate(straffe, 0, translation); 
+        
 
         if (onGround)
         {
@@ -32,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 rb.velocity = new Vector3(0f, jumpheight, 0f);
                 onGround = false;
+                SoundSource.Play();
             }
         }
     }

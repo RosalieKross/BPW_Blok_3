@@ -8,17 +8,23 @@ public class Target : MonoBehaviour
     public float startHealth = 50f;
     public GameObject destroyEffect;
     public float currentHealt;
+    
 
     private float health;
 
     public Image healthbar;
 
+    public AudioClip AudioClip; //Audio clip
+    public AudioSource SoundSource; // Game object waar het geluid vanaf moet komen
+    
 
-	private void Start()
+    private void Start()
 	{
+        SoundSource.clip = AudioClip;
         currentHealt = health;
         health = startHealth;
-	}
+        
+    }
 
 	public void TakeDamage (float amount){
         health -= amount;
@@ -31,7 +37,9 @@ public class Target : MonoBehaviour
     }
 
     void Die(){
-        Destroy(gameObject);
+        SoundSource.Play();
+        Destroy(gameObject, 0.2f);
         Instantiate(destroyEffect, transform.position, transform.rotation);
+        
     }
 }

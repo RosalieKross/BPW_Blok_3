@@ -10,7 +10,7 @@ public class ShootGun : MonoBehaviour
     public GameObject impacteffect;
     public float impactForce = 30f;
     public Camera fpsCam;
-
+    private AudioSource mAudioSrc;
 
     // Update is called once per frame
     void Update()
@@ -21,10 +21,13 @@ public class ShootGun : MonoBehaviour
             Shoot();
         }
 
+        mAudioSrc = GetComponent<AudioSource>();
+
     }
 
     void Shoot()
     {
+        mAudioSrc.Play();
         flash.Play();
         RaycastHit hit;
         if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
